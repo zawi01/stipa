@@ -1,18 +1,21 @@
 # Speech Transmission Index for Public Address (STIPA)
 
 Speech Transmission Index ([STI](https://en.wikipedia.org/wiki/Speech_transmission_index))
-is a metric ranging between 0 and 1 representing the transmission quality of speech with respect to intelligibility by a speech transmission channel, defined in IEC 60268-16 standard.
-It is based on analysis of the amplitude modulations, which simulate speech signals.
+is a metric ranging between 0 and 1 representing the transmission quality of speech with respect to intelligibility by a speech transmission channel, defined in the [IEC&nbsp;60268-16](https://webstore.iec.ch/publication/26771) standard.
+It is based on an analysis of the amplitude modulations, which simulate speech signals.
 
 The full STI model consists of 98 separate test signals using 14 different modulation frequencies in 7 octave bands, which requires approximately 15 minutes of measurements.
 
 STIPA is a simplified form of the full STI based on measurements using a lower number of modulation indices.
-Specifically, STIPA uses only one test signal with 2 modulation frequencies in each of 7 octave bands.
+Specifically, STIPA uses only one test signal with 2 modulation frequencies in each of the 7 octave bands.
 Recommended measurement duration shall be approximately 18 seconds, with a recommended range of 15 s to 25 s.
 
 This MATLAB implementation of STIPA allows users to generate the STIPA test signal of defined length and sampling frequency and then compute the STI using the direct STIPA method. 
 
-The quality of speech transmission and likelihood of intelligibility of syllables, words and sentences being comprehended for native speakers with health hearing can be represented by the following table.
+Apart from the direct STIPA method, the norm also specifies the indirect method usually denoted as STIPA(IR), which is based on measuring the impulse response.
+However, the indirect method is not suitable for applications involving non-linear components in the transmission chain, such as loudspeakers, as it relies on the assumption of linearity and may lead to potential inaccuracies in measurements.
+
+The quality of speech transmission and the likelihood of intelligibility of syllables, words, and sentences being comprehended for native speakers with healthy hearing can be represented by the following table.
 
 | STI value | Quality according to<br>IEC 60268-16 | Intelligibility<br>of syllables in % | Intelligibility<br>of words in % | Intelligibility<br>of sentences in % |
 |:----------------:|:---------:|:-------------:|:-------------:|:--------------:|
@@ -20,18 +23,18 @@ The quality of speech transmission and likelihood of intelligibility of syllable
 | 0.3 &ndash; 0.45 | poor      | 34 &ndash; 48 | 67 &ndash; 78 | 89 &ndash; 92  |
 | 0.45 &ndash; 0.6 | fair      | 48 &ndash; 67 | 78 &ndash; 87 | 92 &ndash; 95  |
 | 0.6 &ndash; 0.75 | good      | 67 &ndash; 90 | 87 &ndash; 94 | 95 &ndash; 96  |
-| 0.75 &ndash; 1   | excellent | 90 &ndash; 96 | 94 &ndash; 96 | 67 &ndash; 100 |
+| 0.75 &ndash; 1   | excellent | 90 &ndash; 96 | 94 &ndash; 96 | 96 &ndash; 100 |
 
 The uncertainty associated with a single STIPA measurement is 0.02 to 0.03.
 Thus, to obtain higher accuracy, it is recommended to perform multiple measurements and average the results.
 
-Note, that to obtain correct measurements of STI, it is necessary to follow the recommendations according to IEC 60268-16.
+Note, that to obtain correct measurements of STI, it is necessary to follow the recommendations according to [IEC&nbsp;60268-16](https://webstore.iec.ch/publication/26771).
 
 ## Usage
 
 Typical usage of STIPA test consists of three steps:
 1. Generate the STIPA test signal using `generateStipaSignal`.
-2. Measure the speech transmission channel using the generated test signal.
+2. Broadcast the STIPA test signal through the transmission channel and capture it.
 3. Compute STI using `stipa`.
 
 ### Generate STIPA test signal
@@ -45,7 +48,7 @@ where `duration` specifies the duration of test signal in seconds.
 
 If no sampling frequency is specified, the default value of 96&nbsp;kHz is used.
 To specify the sampling frequency, just call the function with the second parameter `fs` with the value of sampling frequency in Hz.
-The minimum sampling frequency is 22,050 Hz.
+The minimum sampling frequency is 22,050&nbsp;Hz.
 
 ```matlab
 signal = generateStipaSignal(duration, fs);
