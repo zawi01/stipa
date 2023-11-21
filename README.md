@@ -37,7 +37,7 @@ Typical usage of STIPA test consists of three steps:
 2. Broadcast the STIPA test signal through the transmission channel and capture it.
 3. Compute STI using `stipa`.
 
-A simple demonstration of the provided STIPA implementation is provided in `demonstration.m` file.
+A simple demonstration of the provided STIPA implementation is provided in [`demonstration.m`](https://github.com/zawi01/stipa/blob/master/demonstration.m) file.
 
 ### Generate STIPA test signal
 
