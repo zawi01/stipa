@@ -20,7 +20,7 @@ narginchk(1, 2);
 % Parse input arguments
 p = inputParser;
 validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x > 0);
-validSamplingFreq = @(x) isnumeric(x) && isscalar(x) && (x > 22050);
+validSamplingFreq = @(x) isnumeric(x) && isscalar(x) && (x >= 22050);
 addRequired(p, 'duration', validScalarPosNum);
 
 defaultFs = 96000;
