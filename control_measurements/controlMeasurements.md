@@ -4,13 +4,13 @@ We conducted a series of measurements in the university auditorium to compare th
 
 ## Measurement methodology
 
-To initiate the measurements, a STIPA test signal sampled at 48 kHz was generated using the [`generateStipaSignal`](https://github.com/zawi01/stipa/blob/master/generateStipaSignal.m) function and loaded into the NTi Audio XL2 device, which was responsible for replaying the signal during the entire measurement process.
+To initiate the measurements, a STIPA test signal sampled at 48 kHz was generated using the [`generateStipaSignal`](https://github.com/zawi01/stipa/blob/main/generateStipaSignal.m) function and loaded into the NTi Audio XL2 device, which was responsible for replaying the signal during the entire measurement process.
 
 Then, a Yamaha MSR400 loudspeaker was positioned at the typical location of the teacher, and its volume was adjusted to achieve a sound level of 60&nbsp;dBA at a distance of 1 meter from the loudspeaker.
 
 For capturing the broadcasted STIPA signal, a calibrated NTi Audio M4260 microphone was employed. The microphone was strategically placed at various positions corresponding to the typical listener's location within the auditorium. The captured signal was then routed to another NTi Audio XL2 device, which measured both the sound pressure level in dBA and the Speech Transmission Index (STI). Simultaneously, the signal was recorded using Steinberg Wavelab v9.5 DAW.
 
-Subsequently, the recorded audio files were imported into MATLAB, stripped from the initial and ending sections of silence, and the STI values were computed using the [`stipa`](https://github.com/zawi01/stipa/blob/master/stipa.m) function.
+Subsequently, the recorded audio files were imported into MATLAB, stripped from the initial and ending sections of silence, and the STI values were computed using the [`stipa`](https://github.com/zawi01/stipa/blob/main/stipa.m) function.
 
 An example setup of loudspeaker and microphone placement can be seen in the following image.
 
@@ -27,7 +27,7 @@ An example setup of loudspeaker and microphone placement can be seen in the foll
 
 ## Results
 
-STI results from the NTi XL2 analyzer and computed STI values using the [`stipa`](https://github.com/zawi01/stipa/blob/master/stipa.m) function are along with the measured loudness level listed in the following table.
+STI results from the NTi XL2 analyzer and computed STI values using the [`stipa`](https://github.com/zawi01/stipa/blob/main/stipa.m) function are along with the measured loudness level listed in the following table.
 
 | Level (dBA) | STI (NTi XL2) | STI (computed) |
 |:-----------:|:-------------:|:--------------:|
