@@ -109,6 +109,10 @@ To verify the STIPA implementation in this repository, please follow these steps
 
 Note that the verification tests evaluates only 4 out of 5 tests available (Annex A.2.2, A.3.2.1, C.3.2, and C.4.2) since Annex C.3.3 aims at modulation depth testing of indirect method using impulse responses &ndash; STIPA(IR), which is not part of this implementation.
 
+## Control Measurements
+To compare the STIPA implementation in this repository with a licensed commercial device, we conducted a series of measurements in the university auditorium. 
+The results and more details about the measurement setup can be found in the [`controlMeasurements.md`](https://github.com/zawi01/stipa/blob/master/control_measurements/controlMeasurements.md) file.
+
 ## License
 
 The code of this toolbox is distributed under the terms of the [GNU General Public License 3](https://github.com/zawi01/stipa/blob/master/LICENSE).
