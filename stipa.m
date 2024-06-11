@@ -19,21 +19,54 @@ function [STI, mk] = stipa(signal, fs, varargin)
 %   [STI, MK] = STIPA(SIGNAL, FS, REFERENCE, FSREF) computes the Speech
 %   Transmission Index using the REFERENCE signal and its sampling
 %   frequency FSREF.
-
-% Copyright Pavel Záviška, Brno University of Technology, 2023
+%   
+%   [STI, MK] = STIPA(SIGNAL, FS, 'Lsk', LSK) computes the Speech
+%   Transmission Index with adjustment of the MTF for auditory masking and 
+%   threshold effects.
+%
+%   [STI, MK] = STIPA(SIGNAL, FS, 'Lsk', LSK, 'Lnk', LNK) computes the
+%   Speech Transmission Index with adjustments of the MTF for ambient 
+%   noise, and  auditory masking and threshold effects.
+%
+% Copyright Pavel Záviška, Brno University of Technology, 2023-2024
 
 % Check number of input arguments
-narginchk(2, 4);
+narginchk(2, 8);
 
 % Parse input arguments:
 p = inputParser;
 validScalarPosNum = @(x) isnumeric(x) && isscalar(x) && (x > 0);
-validColumnVector = @(x) iscolumn(x);
+validColumnVector = @(x) isnumeric(x) && iscolumn(x);
+valid7PosVector = @(x) isnumeric(x) && length(x) == 7 && all(x > 0);
 addRequired(p, 'signal', validColumnVector);
 addRequired(p, 'fs', validScalarPosNum);
 addOptional(p, 'reference', NaN, validColumnVector);
 addOptional(p, 'fsRef', fs, validScalarPosNum);
+addParameter(p, 'Lsk', NaN, valid7PosVector);
+addParameter(p, 'Lnk', NaN, valid7PosVector);
 parse(p, signal, fs, varargin{:});
+
+% Parse vectors of input levels Lsk and Lnk
+Lsk = p.Results.Lsk(:).';
+Lnk = p.Results.Lnk(:).';
+
+adjustAmbientNoiseFlag = false;
+adjustAuditoryMaskingFlag = false;
+
+if any(~isnan(Lsk)) && any(~isnan(Lnk)) % Both Lsk and Lnk given
+    adjustAmbientNoiseFlag = true;
+    adjustAuditoryMaskingFlag = true;
+    Isk = 10 .^ (Lsk / 10);
+    Ink = 10 .^ (Lnk / 10);
+elseif any(~isnan(Lsk)) && any(isnan(Lnk)) % Only Lsk given
+    adjustAuditoryMaskingFlag = true;
+    Isk = 10 .^ (Lsk / 10);
+    Ink = zeros(1, 7);
+elseif any(isnan(Lsk)) && any(~isnan(Lnk)) % Only Lnk given
+    warning("Ambient noise levels alone (Lnk), without signal levels" + ...
+        " (Lsk), are insufficient for calculating the ambient noise" + ...
+        " adjustment. Therefore, the adjustment step will be omitted.")
+end
 
 % Band-filter the input signal and cut the first 200 ms to suppress the
 % transient effects of the used IIR octave filters
@@ -46,7 +79,8 @@ signalEnvelope = envelopeDetection(signalFiltered, fs);
 % Compute modulation depths of the input signal
 mk_o = MTF(signalEnvelope, fs);
 
-if nargin > 2 % Compute modulation depths of the reference signal if it was passed to the STIPA function
+% Compute modulation depths of the reference signal if it was passed to the STIPA function
+if ~isnan(p.Results.reference)
     reference = p.Results.reference;
     fsRef = p.Results.fsRef;
     
@@ -58,7 +92,25 @@ else % Use the default modulation depth 0.55
     mk = mk_o ./ 0.55;
 end
 
+% Check for any value in 'mk' exceeding the threshold of 1.3
+if any(mk(:) > 1.3)
+    warning(['One or more m-values are higher than 1.3, which is very ' ...
+        'unlikely and suggests non-sinusoidal fluctuations or impulsive' ...
+        ' noises. This indicates an invalid measurement!'])
+end
+
+% Adjust mk values to ambient noise
+if adjustAmbientNoiseFlag == true
+    mk = adjustAmbientNoise(mk, Isk, Ink);
+end
+
+% Adjust mk values to auditory masking and threshold effects
+if adjustAuditoryMaskingFlag == true
+    mk = adjustAuditoryMasking(mk, Lsk, Isk, Ink);
+end
+
 % Limit the value of modulation transfer values mk to avoid complex values in SNR
+% (Note that, in contrast to the paper, the limitation is applied after the adjustment steps)
 mk(mk > 1) = 1;
 
 % Calculate SNR from the modulation transfer values and limit the range to [-15; 15] dB
@@ -77,7 +129,7 @@ STI = computeSTI(MTI);
 
     function y = bandFiltering(x, fs)
     % Filter input signal using a octave filter of 18th order to achieve a
-    % minimum of 42 dB attenuation at the cener frequency of each adjacent
+    % minimum of 42 dB attenuation at the center frequency of each adjacent
     % band.
         
         filterOrder = 18;
@@ -88,10 +140,9 @@ STI = computeSTI(MTI);
         for bandIdx = 1:length(octaveBands)
             octFilt = octaveFilter(octaveBands(bandIdx), '1 octave', ...
                 'SampleRate', fs, 'FilterOrder', filterOrder);
-            
             y(:, bandIdx) = octFilt(x);
         end
-        
+
     end
 
     function envelope = envelopeDetection(x, fs)
@@ -130,6 +181,46 @@ STI = computeSTI(MTI);
             
         end
         
+    end
+
+    function mk_ = adjustAmbientNoise(mk, Isk, Ink)
+    % Adjust the m-values for ambient noise   
+
+        mk_ = mk .* (Isk ./ (Isk + Ink));
+    end
+
+    function mk_ = adjustAuditoryMasking(mk, Lsk, Isk, Ink)
+    % Adjust the m-values for auditory masking and threshold effects
+
+        Ik = Isk + Ink; % total acoustic intensity
+       
+        % Auditory masking as a function of the octave band level
+        La = NaN(1,6);
+        for k = 1:6
+            L = Lsk(k);
+            if L < 63
+                La(k) = 0.5 * L - 65;
+            elseif (L >= 63) && (L < 67)
+                La(k) = 1.8 * L - 146.9;
+            elseif (L >= 67) && (L < 100)
+                La(k) = 0.5 * L - 59.8;
+            else
+                La(k) = -10;
+            end
+        end
+
+        a = 10 .^ (La / 10);
+
+        % Total acoustic intensity for the level-dependent auditory masking effect
+        Iamk = [0, Isk(1:end-1) .* a];
+        
+        % Absolute speech reception threshold
+        Ak = [46, 27, 12, 6.5, 7.5, 8, 12];
+
+        % Acoustic intensity level of the reception threshold
+        Irtk = 10 .^ (Ak / 10);
+        
+        mk_ = mk .* (Ik ./ (Ik + Iamk + Irtk));
     end
 
     function SNR = computeSNR(mk)

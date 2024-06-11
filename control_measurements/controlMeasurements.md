@@ -50,4 +50,4 @@ To test the implementation in various conditions, measurements number 11 and 12 
 Specifically, measurement no.&nbsp;11 was performed with a microphone placement on the floor facing away from the testing loudspeaker, and measurement no.&nbsp;12 was performed in the presence of added white noise from another sound source.
 
 ---
-Pavel Záviška, Brno University of Technology, 2023
+&copy; Pavel Záviška, Brno University of Technology, 2023&ndash;2024

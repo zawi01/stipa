@@ -12,7 +12,7 @@ function signal = generateStipaSignal(duration, varargin)
 %   of the STIPA test signal with a sampling frequency of FS Hertz.
 %   The minimum FS is 22050 Hz.
 
-% Copyright Pavel Záviška, Brno University of Technology, 2023
+% Copyright Pavel Záviška, Brno University of Technology, 2023-2024
 
 % Check number of input arguments
 narginchk(1, 2);

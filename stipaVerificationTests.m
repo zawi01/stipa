@@ -11,7 +11,7 @@
 %   2. Unzip the folder with the testing signals into the `verification` folder.
 %   3. Run this `stipaVerificationTests.m` script.
 
-% Copyright Pavel Záviška, Brno University of Technology, 2023
+% Copyright Pavel Záviška, Brno University of Technology, 2023-2024
 
 % Add verification folder (and all subfolders) to Matlab path
 addpath(genpath('verification'))
