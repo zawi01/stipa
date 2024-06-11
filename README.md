@@ -1,20 +1,24 @@
 # Speech Transmission Index for Public Address (STIPA)
 
 Speech Transmission Index ([STI](https://en.wikipedia.org/wiki/Speech_transmission_index))
-is a metric ranging between 0 and 1 predicting the speech intelligibility when speech is passed through a transmission channel, defined in the [IEC&nbsp;60268-16](https://webstore.iec.ch/publication/26771) standard^[International Electrotechnical Commission,“Sound system equipment – Part 16: Objective rating of speech intelligibility by speech transmission index,” 2020. Number IEC 60268-16:2020, edition 5.0.].
+is a metric ranging between 0 and 1 predicting the speech intelligibility when speech is passed through a transmission channel, defined in the [IEC&nbsp;60268-16](https://webstore.iec.ch/publication/26771) standard[^1].
 It is based on an analysis of the amplitude modulations, which simulate speech signals.
+
+[^1]: International Electrotechnical Commission,“Sound system equipment – Part 16: Objective rating of speech intelligibility by speech transmission index,” 2020. Number IEC 60268-16:2020, edition 5.0.
 
 The full STI model consists of 98 separate test signals using 14 different modulation frequencies in 7 octave bands, which requires approximately 15 minutes of measurements.
 STIPA is a simplified form of the full STI based on measurements using a lower number of modulation indices.
 Specifically, STIPA uses only one test signal with 2 modulation frequencies in each of the 7 octave bands.
 Recommended measurement duration shall be approximately 18 seconds, with a recommended range of 15 s to 25 s.
 
-This MATLAB implementation of STIPA allows users to generate the STIPA test signal of defined length and sampling frequency and then compute the STI using the direct STIPA method. 
+This MATLAB implementation of STIPA allows users to generate the STIPA test signal of defined length and sampling frequency and then compute the STI using the direct STIPA method.
 
 Apart from the direct STIPA method, the norm also specifies the indirect method usually denoted as STIPA(IR), which is based on measuring the impulse response.
 However, the indirect method is not suitable for applications involving non-linear components in the transmission chain, as it relies on the assumption of linearity and may lead to potential inaccuracies in measurements.
 
-The quality of speech transmission and the likelihood of intelligibility of syllables, words, and sentences being comprehended for native speakers with healthy hearing can be represented by the following table^[https://en.wikipedia.org/wiki/Speech_transmission_index#Scale].
+The quality of speech transmission and the likelihood of intelligibility of syllables, words, and sentences being comprehended for native speakers with healthy hearing can be represented by the following table[^2].
+
+[^2]: https://en.wikipedia.org/wiki/Speech_transmission_index#Scale
 
 | STI value | Quality according to<br>IEC 60268-16 | Intelligibility<br>of syllables in % | Intelligibility<br>of words in % | Intelligibility<br>of sentences in % |
 |:----------------:|:---------:|:-------------:|:-------------:|:--------------:|
