@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+title: Speech Transmission Index for Public Address (STIPA)
+message: >-
+  If you use this software in your work, please cite it
+  using the metadata from "preferred-citation".
+type: software
+authors:
+  - family-names: Záviška
+    given-names: Pavel
+    orcid: 'https://orcid.org/0000-0003-2221-2058'
+    affiliation: Brno University of Technology
+repository-code: 'https://github.com/zawi01/stipa'
+abstract: >-
+  MATLAB implementation of the Speech Transmission Index for
+  Public Address (STIPA) method for evaluating the speech
+  transmission quality.
+keywords:
+  - audio
+  - evaluation
+  - speech
+  - psychoacoustics
+  - intelligibility
+  - speech-transmission-index
+  - stipa
+license: GPL-3.0
+version: 1.0.0
+date-released: '2024-06-18'
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Záviška
+      given-names: Pavel
+      orcid: 'https://orcid.org/0000-0003-2221-2058'
+      affiliation: 'Brno University of Technology'
+    - family-names: Rajmic
+      given-names: Pavel
+      orcid: 'https://orcid.org/0000-0002-8381-4442'
+      affiliation: 'Brno University of Technology'
+    - family-names: Schimmel
+      given-names: Jiří
+      orcid: 'https://orcid.org/0000-0002-7870-4345'
+      affiliation: 'Brno University of Technology'
+  journal: Journal of the Audio Engineering Society
+  title: Matlab Implementation of STIPA (Speech Transmission Index for Public Address Systems)
+  number: 10713
+  url: https://aes2.org/publications/elibrary-page/?id=22526
+  month: 6
+  year: 2024
