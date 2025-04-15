@@ -115,6 +115,7 @@ The code has been developed in MATLAB version R2022a. The implementation require
 - Audio Toolbox.
 
 ## Verification tests
+
 IEC-60286-16 revision 5 requires to verify STIPA implementations using the test signals described in Annexes A and C. 
 Several test signals developed by Embedded Acoustics, along with the test signal description, are available at http://www.stipa.info/index.php/download-test-signals.
 
@@ -126,6 +127,7 @@ To verify the STIPA implementation in this repository, please follow these steps
 Note that the verification tests evaluates only 4 out of 5 tests available (Annex A.2.2, A.3.2.1, C.3.2, and C.4.2) since Annex C.3.3 aims at modulation depth testing of indirect method using impulse responses &ndash; STIPA(IR), which is not part of this implementation.
 
 ## Control Measurements
+
 To compare the STIPA implementation in this repository with a licensed commercial device, we conducted a series of measurements in the university auditorium. 
 The results and more details about the measurement setup can be found in the [`controlMeasurements.md`](https://github.com/zawi01/stipa/blob/main/control_measurements/controlMeasurements.md) file.
 
@@ -133,5 +135,22 @@ The results and more details about the measurement setup can be found in the [`c
 
 The code of this toolbox is distributed under the terms of the [GNU General Public License 3](https://github.com/zawi01/stipa/blob/main/LICENSE).
 
+## Citation
+
+If you use this software in your work, please cite the article [Matlab Implementation of STIPA (Speech Transmission Index for Public Address Systems)](https://aes2.org/publications/elibrary-page/?id=22526).
+
+```bibtex
+@article{zaviska2024stipa,
+  title   = {{MATLAB Implementation of STIPA (Speech Transmission Index for Public Address Systems)}},
+  author  = {Z{\'a}vi{\v{s}}ka, Pavel and Rajmic, Pavel and Schimmel, Ji{\v{r}}{\'i}},
+  year    = {2024},
+  month   = {apr},
+  journal = {Journal of the Audio Engineering Society},
+  number  = {10713},
+  pages   = {1--7},
+  url     = {https://aes2.org/publications/elibrary-page/?id=22526},
+}
+```
+
 ---
-&copy; Pavel Záviška, Brno University of Technology, 2023&ndash;2024
+&copy; Pavel Záviška, Brno University of Technology, 2023&ndash;2025
